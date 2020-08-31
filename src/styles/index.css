@@ -11,6 +11,9 @@
  * 												buttons             												   *
  * *********************************************************************************************************************/
 /***********************************************************************************************************************
+ * 													button mixin   												   *
+ * *********************************************************************************************************************/
+/***********************************************************************************************************************
  * 													import layouts   												   *
  * *********************************************************************************************************************/
 *,
@@ -393,6 +396,85 @@ main {
   box-shadow: none;
 }
 .btn.disabled > *, .btn[disabled] > * {
+  pointer-events: none;
+}
+
+.btn-lg {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+}
+
+.btn-primary {
+  color: #fff;
+  background: #0d6efd;
+  border-color: #0d6efd;
+}
+.btn-primary:hover {
+  color: #fff;
+  background: #0d6efd;
+  border-color: #408cfd;
+}
+.btn-primary:focus, .btn-primary.focus {
+  color: #fff;
+  background: #0d6efd;
+  border-color: #408cfd;
+}
+
+.btn-danger {
+  color: #fff;
+  background: #dc3545;
+  border-color: #dc3545;
+}
+.btn-danger:hover {
+  color: #fff;
+  background: #dc3545;
+  border-color: #e4606d;
+}
+.btn-danger:focus, .btn-danger.focus {
+  color: #fff;
+  background: #dc3545;
+  border-color: #e4606d;
+}
+
+.btn-default {
+  color: #212529;
+  background: #fff;
+  border-color: #ced4da;
+}
+.btn-default:hover {
+  color: #0d6efd;
+  background: #fff;
+  border-color: #0d6efd;
+}
+.btn-default:focus, .btn-default.focus {
+  color: #0d6efd;
+  background: #fff;
+  border-color: #0d6efd;
+}
+
+.btn-link {
+  font-weight: 400;
+  color: #0d6efd;
+  text-decoration: none;
+  box-shadow: none;
+}
+.btn-link:hover {
+  color: #024dbc;
+  text-decoration: underline;
+}
+.btn-link:focus, .btn-link.focus {
+  text-decoration: underline;
+  box-shadow: none;
+}
+.btn-link:disabled, .btn-link.disabled {
+  color: #6c757d;
   pointer-events: none;
 }
 
