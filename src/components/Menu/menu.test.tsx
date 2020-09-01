@@ -23,11 +23,9 @@ const testVerProps: MenuProps = {
 const getMenu = (props: MenuProps) => {
     return (
         <Menu {...props}>
-            <MenuItem >active</MenuItem>
-            <MenuItem disabled>
-                disabled
-            </MenuItem >
-            <MenuItem >next</MenuItem>
+            <MenuItem>active</MenuItem>
+            <MenuItem disabled>disabled</MenuItem>
+            <MenuItem>next</MenuItem>
         </Menu>
     );
 };
