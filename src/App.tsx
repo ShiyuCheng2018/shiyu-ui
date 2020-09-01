@@ -1,6 +1,7 @@
 import React from "react";
-import "./App.css";
 import Button, { ButtonSize, ButtonType } from "./components/Button/button";
+import MenuItem from "./components/Menu/menuItem";
+import Menu from "./components/Menu/menu";
 
 function App() {
     return (
@@ -16,6 +17,13 @@ function App() {
                 >
                     Google
                 </Button>
+                <Menu>
+                    <MenuItem index={0}>active</MenuItem>
+                    <MenuItem disabled index={1}>
+                        disabled
+                    </MenuItem>
+                    <MenuItem index={2}>next</MenuItem>
+                </Menu>
             </header>
         </div>
     );

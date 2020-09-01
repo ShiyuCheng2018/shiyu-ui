@@ -502,7 +502,7 @@ main {
     pointer-events: none;
 }
 
-.viking-menu {
+.shiyu-menu {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
@@ -512,22 +512,22 @@ main {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
         0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.viking-menu .menu-item {
+.shiyu-menu .menu-item {
     padding: 0.5rem 1rem;
     cursor: pointer;
     transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
-.viking-menu .menu-item:hover,
-.viking-menu .menu-item:focus {
+.shiyu-menu .menu-item:hover,
+.shiyu-menu .menu-item:focus {
     text-decoration: none;
 }
-.viking-menu .menu-item.is-disabled {
+.shiyu-menu .menu-item.is-disabled {
     color: #6c757d;
     pointer-events: none;
     cursor: default;
 }
-.viking-menu .menu-item.is-active,
-.viking-menu .menu-item:hover {
+.shiyu-menu .menu-item.is-active,
+.shiyu-menu .menu-item:hover {
     color: #0d6efd;
     border-bottom: 2px solid #0d6efd;
 }
