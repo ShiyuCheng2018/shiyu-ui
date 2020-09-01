@@ -30,6 +30,7 @@
         position: relative;
     }
     .shiyu-submenu {
+        display: none;
         list-style: none;
         padding-left: 0;
         white-space: nowrap;
@@ -54,7 +55,6 @@
         border-bottom: $menu-item-active-border-width solid transparent;
     }
     .shiyu-submenu {
-        display: none;
         position: absolute;
         background: $white;
         z-index: 100;
