@@ -9,7 +9,7 @@ import { MenuContext } from "./menu";
 import MenuItem, { MenuItemProps } from "./menuItem";
 
 export interface SubMenuProps {
-    index?: number;
+    index?: string;
     title: string;
     className?: string;
 }
@@ -20,8 +20,14 @@ const SubMenu: React.FC<SubMenuProps> = ({
     children,
     className,
 }) => {
-    const [menuOpen, setMenuOpen] = useState(false);
     const context = useContext(MenuContext);
+    const openedSubMenus = context.defaultOpenSubMenus as Array<string>;
+    const isOpened =
+        index && context.mode === "vertical"
+            ? openedSubMenus.includes(index)
+            : false;
+
+    const [menuOpen, setMenuOpen] = useState(isOpened);
     const classes = classNames("menu-item submenu-item", className, {
         "is-active": context.index === index,
     });
@@ -62,21 +68,20 @@ const SubMenu: React.FC<SubMenuProps> = ({
         const subMenuClasses = classNames("shiyu-submenu", {
             "menu-opened": menuOpen,
         });
-        const childrenComponent = React.Children.map(
-            children,
-            (child, index) => {
-                const childElement = child as FunctionComponentElement<
-                    MenuItemProps
-                >;
-                if (childElement.type.displayName === "MenuItem") {
-                    return childElement;
-                } else {
-                    console.error(
-                        "Warning: Menu has a child which is not a MenuItem component"
-                    );
-                }
+        const childrenComponent = React.Children.map(children, (child, i) => {
+            const childElement = child as FunctionComponentElement<
+                MenuItemProps
+            >;
+            if (childElement.type.displayName === "MenuItem") {
+                return React.cloneElement(childElement, {
+                    index: `${index}-${i}`,
+                });
+            } else {
+                console.error(
+                    "Warning: Menu has a child which is not a MenuItem component"
+                );
             }
-        );
+        });
         return <ul className={subMenuClasses}>{childrenComponent}</ul>;
     };
 
