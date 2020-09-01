@@ -54,6 +54,7 @@
         border-bottom: $menu-item-active-border-width solid transparent;
     }
     .shiyu-submenu {
+        display: none;
         position: absolute;
         background: $white;
         z-index: 100;

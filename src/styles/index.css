@@ -560,6 +560,7 @@ main {
     border-bottom: 2px solid transparent;
 }
 .menu-horizontal .shiyu-submenu {
+    display: none;
     position: absolute;
     background: #fff;
     z-index: 100;
