@@ -11,7 +11,16 @@
  * 												buttons             												   *
  * *********************************************************************************************************************/
 /***********************************************************************************************************************
- * 													button mixin   												   *
+ * 												Menu                												   *
+ * *********************************************************************************************************************/
+/***********************************************************************************************************************
+ * 												menu-item                												*
+ * *********************************************************************************************************************/
+/***********************************************************************************************************************
+ * 												submenu                												  *
+ * *********************************************************************************************************************/
+/***********************************************************************************************************************
+ * 													button mixin   												       *
  * *********************************************************************************************************************/
 /***********************************************************************************************************************
  * 													import layouts   												   *
@@ -379,7 +388,7 @@ main {
 }
 
 /***********************************************************************************************************************
- * 													buttons         												   *
+ * 													Components         												   *
  * *********************************************************************************************************************/
 .btn {
     position: relative;
@@ -494,6 +503,86 @@ main {
 .btn-link.disabled {
     color: #6c757d;
     pointer-events: none;
+}
+
+.shiyu-menu {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 30px;
+    list-style: none;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.shiyu-menu > .menu-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+.shiyu-menu > .menu-item:hover,
+.shiyu-menu > .menu-item:focus {
+    text-decoration: none;
+}
+.shiyu-menu > .menu-item.is-disabled {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+.shiyu-menu > .menu-item.is-active,
+.shiyu-menu > .menu-item:hover {
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd;
+}
+.shiyu-menu .submenu-item {
+    position: relative;
+}
+.shiyu-menu .shiyu-submenu {
+    display: none;
+    list-style: none;
+    padding-left: 0;
+    white-space: nowrap;
+}
+.shiyu-menu .shiyu-submenu .menu-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    color: #212529;
+}
+.shiyu-menu .shiyu-submenu .menu-item.is-active,
+.shiyu-menu .shiyu-submenu .menu-item:hover {
+    color: #0d6efd !important;
+}
+.shiyu-menu .shiyu-submenu.menu-opened {
+    display: block;
+}
+
+.menu-horizontal > .menu-item {
+    border-bottom: 2px solid transparent;
+}
+.menu-horizontal .shiyu-submenu {
+    position: absolute;
+    background: #fff;
+    z-index: 100;
+    top: calc(100% + 8px);
+    left: 0;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+}
+
+.menu-vertical {
+    flex-direction: column;
+    border-bottom: 0px;
+    margin: 10px 20px;
+    border-right: 1px solid #dee2e6;
+}
+.menu-vertical > .menu-item {
+    border-left: 2px solid transparent;
+}
+.menu-vertical > .menu-item.is-active,
+.menu-vertical > .menu-item:hover {
+    border-bottom: 0px;
+    border-left: 2px solid #0d6efd;
 }
 
 /*# sourceMappingURL=index.css.map */
