@@ -12,7 +12,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <Menu mode={"vertical"}>
+                <Menu>
                     <MenuItem>active</MenuItem>
                     <MenuItem disabled>disabled</MenuItem>
                     <MenuItem>next</MenuItem>
