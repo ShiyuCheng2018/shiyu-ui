@@ -1,18 +1,16 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
 import MenuItem from "./components/Menu/menuItem";
 import Menu from "./components/Menu/menu";
 import SubMenu from "./components/Menu/subMenu";
 import Icon from "./components/Icon/icon";
-library.add(fas);
+import registerFaIcons from "./registerFaIcons";
+registerFaIcons();
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <Menu>
+                <Menu mode={"vertical"}>
                     <MenuItem>active</MenuItem>
                     <MenuItem disabled>disabled</MenuItem>
                     <MenuItem>next</MenuItem>

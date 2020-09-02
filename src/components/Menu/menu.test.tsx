@@ -10,6 +10,8 @@ import "@testing-library/jest-dom/extend-expect";
 import Menu, { MenuProps } from "./menu";
 import MenuItem from "./menuItem";
 import SubMenu from "./subMenu";
+import registerFaIcons from "../../registerFaIcons";
+registerFaIcons();
 
 const testProps: MenuProps = {
     defaultIndex: "0",
@@ -100,7 +102,7 @@ describe("test Menu and MenuItem component", () => {
         expect(menuElement).toHaveClass("menu-vertical");
     });
     it("should display dropdown items when hover on subMenu", async () => {
-        expect(wrapper.queryByText("dropdown_1")).not.toBeVisible();
+        expect(wrapper.queryByText("dropdown_1")).toEqual(null);
         const dropdownElement = wrapper.getByText("dropdown");
         fireEvent.mouseEnter(dropdownElement);
         await wait(
@@ -113,22 +115,32 @@ describe("test Menu and MenuItem component", () => {
         expect(testProps.onSelect).toHaveBeenCalledWith("3-0");
         fireEvent.mouseLeave(dropdownElement);
         await wait(() => {
-            expect(wrapper.queryByText("dropdown_1")).not.toBeVisible();
+            expect(wrapper.queryByText("dropdown_1")).toEqual(null);
         });
     });
-    it("should display submenu when click submenu title in vertical mode", () => {
+    it("should display submenu when click submenu title in vertical mode", async () => {
         cleanup();
         const wrapper = render(getMenu(testVerProps));
         wrapper.container.append(createStyleFile());
-        expect(wrapper.queryByText("dropdown_1")).not.toBeVisible();
-        expect(wrapper.queryByText("dropdown_5")).not.toBeVisible();
+        expect(wrapper.queryByText("dropdown_1")).toEqual(null);
+        expect(wrapper.queryByText("dropdown_5")).toEqual(null);
         const dropdownElement = wrapper.getByText("dropdown");
         fireEvent.click(dropdownElement);
-        expect(wrapper.queryByText("dropdown_1")).toBeVisible();
-        expect(wrapper.queryByText("dropdown_5")).not.toBeVisible();
+        await wait(
+            () => {
+                expect(wrapper.queryByText("dropdown_1")).toBeVisible();
+            },
+            { timeout: 310 }
+        );
+        expect(wrapper.queryByText("dropdown_5")).toEqual(null);
         fireEvent.click(dropdownElement);
-        expect(wrapper.queryByText("dropdown_1")).not.toBeVisible();
-        expect(wrapper.queryByText("dropdown_5")).not.toBeVisible();
+        await wait(
+            () => {
+                expect(wrapper.queryByText("dropdown_1")).toEqual(null);
+            },
+            { timeout: 310 }
+        );
+        expect(wrapper.queryByText("dropdown_5")).toEqual(null);
     });
     it("should display default open submenu when defaultOpenSubMenus sat", () => {
         cleanup();
