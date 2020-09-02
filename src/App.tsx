@@ -12,7 +12,6 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <Icon icon={"arrow-down"} theme={"primary"} size={"lg"} />
                 <Menu mode={"vertical"}>
                     <MenuItem>active</MenuItem>
                     <MenuItem disabled>disabled</MenuItem>
