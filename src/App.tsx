@@ -1,13 +1,18 @@
 import React from "react";
-import Button, { ButtonSize, ButtonType } from "./components/Button/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import MenuItem from "./components/Menu/menuItem";
 import Menu from "./components/Menu/menu";
 import SubMenu from "./components/Menu/subMenu";
+import Icon from "./components/Icon/icon";
+library.add(fas);
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <Icon icon={"arrow-down"} theme={"danger"} size={"lg"} />
                 <Menu mode={"vertical"}>
                     <MenuItem>active</MenuItem>
                     <MenuItem disabled>disabled</MenuItem>
