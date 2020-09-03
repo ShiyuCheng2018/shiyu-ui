@@ -1,11 +1,5 @@
-import React, {
-    createContext,
-    FunctionComponentElement,
-    useContext,
-    useState,
-} from "react";
+import React from "react";
 import { CSSTransition } from "react-transition-group";
-import classNames from "classnames";
 import { CSSTransitionProps } from "react-transition-group/CSSTransition";
 
 type AnimationName =

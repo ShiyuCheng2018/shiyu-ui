@@ -1,15 +1,15 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import Button, { ButtonProps, ButtonSize, ButtonType } from "./button";
+import Button, { ButtonProps } from "./button";
 
 const defaultProps = {
     onClick: jest.fn(),
 };
 
 const testProps: ButtonProps = {
-    btnType: ButtonType.Primary,
-    size: ButtonSize.Large,
+    btnType: "primary",
+    size: "lg",
     className: "mClass",
 };
 
@@ -37,7 +37,7 @@ describe("test Button component", () => {
     });
     it("should render a link when btnType equals link and href is provided.", () => {
         const wrapper = render(
-            <Button btnType={ButtonType.Link} href={"www.google.com"}>
+            <Button btnType={"link"} href={"www.google.com"}>
                 google
             </Button>
         );

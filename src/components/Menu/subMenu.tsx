@@ -1,10 +1,4 @@
-import React, {
-    createContext,
-    FunctionComponentElement,
-    useContext,
-    useState,
-} from "react";
-import { CSSTransition } from "react-transition-group";
+import React, { FunctionComponentElement, useContext, useState } from "react";
 import classNames from "classnames";
 import { MenuContext } from "./menu";
 import MenuItem, { MenuItemProps } from "./menuItem";
