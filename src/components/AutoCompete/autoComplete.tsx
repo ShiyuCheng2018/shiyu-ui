@@ -1,6 +1,6 @@
 import React, { FC, useState, ChangeEvent, ReactElement } from "react";
 import Input, { InputProps } from "../Input/input";
-import { render } from "react-dom";
+import Icon from "../Icon/icon";
 
 interface DataSourceObject {
     value: string;
@@ -10,7 +10,9 @@ export type DataSourceType<T = any> = T & DataSourceObject;
 
 export interface AutoCompleteProps<DataSourceType>
     extends Omit<InputProps, "onSelect"> {
-    fetchSuggestions: (str: string) => DataSourceType[];
+    fetchSuggestions: (
+        str: string
+    ) => DataSourceType[] | Promise<DataSourceType[]>;
     onSelect?: (item: DataSourceType) => void;
     renderOption?: (item: DataSourceType) => ReactElement;
 }
@@ -26,6 +28,7 @@ export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
 
     const [inputValue, setInputValue] = useState(value);
     const [suggestions, setSuggestions] = useState<DataSourceType[]>([]);
+    const [loading, setLoading] = useState(false);
 
     console.log(suggestions);
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +36,15 @@ export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
         setInputValue(value);
         if (value) {
             const result = fetchSuggestions(value);
-            setSuggestions(result);
+            if (result instanceof Promise) {
+                setLoading(true);
+                result.then((data) => {
+                    setLoading(false);
+                    setSuggestions(data);
+                });
+            } else {
+                setSuggestions(result);
+            }
         } else {
             setSuggestions([]);
         }
@@ -68,6 +79,11 @@ export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
     return (
         <div className={"shiyu-auto-complete"}>
             <Input value={inputValue} onChange={handleChange} {...restProps} />
+            {loading && (
+                <ul>
+                    <Icon icon={"spinner"} spin />
+                </ul>
+            )}
             {suggestions.length > 0 && generateDropdown()}
         </div>
     );

@@ -33,6 +33,45 @@ const SimpleComplete = () => {
     );
 };
 
+const AsyncComplete = () => {
+    interface GithubUserProps {
+        login: string;
+        url: string;
+        avatar_url: string;
+    }
+
+    const handleFetch = (query: string) => {
+        return fetch(`https://api.github.com/search/users?q=${query}`)
+            .then((res) => res.json())
+            .then(({ items }) => {
+                const githubUsers = items as GithubUserProps[];
+                return githubUsers
+                    .slice(0, 10)
+                    .map((githubUser) => ({
+                        value: githubUser.login,
+                        ...githubUser,
+                    }));
+            });
+    };
+
+    const renderOption = (item: DataSourceType<GithubUserProps>) => {
+        return (
+            <>
+                <h5>Name: {item.login}</h5>
+                <p>url: {item.url}</p>
+            </>
+        );
+    };
+
+    return (
+        <AutoComplete
+            fetchSuggestions={handleFetch}
+            onSelect={action("selected")}
+            renderOption={renderOption}
+        />
+    );
+};
+
 const renderOption = () => {
     interface LakersPlayerProps {
         value: string;
@@ -75,4 +114,5 @@ const renderOption = () => {
 
 storiesOf("AutoComplete Component", module)
     .add("AddComplete", SimpleComplete)
+    .add("AsyncComplete", AsyncComplete)
     .add("RenderOption", renderOption);
