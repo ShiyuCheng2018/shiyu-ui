@@ -1,16 +1,31 @@
-import React, { FC, useState, ChangeEvent } from "react";
+import React, { FC, useState, ChangeEvent, ReactElement } from "react";
 import Input, { InputProps } from "../Input/input";
+import { render } from "react-dom";
 
-export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
-    fetchSuggestions: (str: string) => string[];
-    onSelect?: (item: string) => void;
+interface DataSourceObject {
+    value: string;
 }
 
-export const AutoComplete: FC<AutoCompleteProps> = (props) => {
-    const { fetchSuggestions, onSelect, value, ...restProps } = props;
+export type DataSourceType<T = any> = T & DataSourceObject;
+
+export interface AutoCompleteProps<DataSourceType>
+    extends Omit<InputProps, "onSelect"> {
+    fetchSuggestions: (str: string) => DataSourceType[];
+    onSelect?: (item: DataSourceType) => void;
+    renderOption?: (item: DataSourceType) => ReactElement;
+}
+
+export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
+    const {
+        fetchSuggestions,
+        onSelect,
+        value,
+        renderOption,
+        ...restProps
+    } = props;
 
     const [inputValue, setInputValue] = useState(value);
-    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [suggestions, setSuggestions] = useState<DataSourceType[]>([]);
 
     console.log(suggestions);
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,12 +39,16 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         }
     };
 
-    const handleSelect = (item: string) => {
-        setInputValue(item);
+    const handleSelect = (item: DataSourceType) => {
+        setInputValue(item.value);
         setSuggestions([]);
         if (onSelect) {
             onSelect(item);
         }
+    };
+
+    const renderTemplate = (item: DataSourceType) => {
+        return renderOption ? renderOption(item) : item.value;
     };
 
     const generateDropdown = () => {
@@ -38,7 +57,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
                 {suggestions.map((item, index) => {
                     return (
                         <li key={index} onClick={() => handleSelect(item)}>
-                            {item}
+                            {renderTemplate(item)}
                         </li>
                     );
                 })}
