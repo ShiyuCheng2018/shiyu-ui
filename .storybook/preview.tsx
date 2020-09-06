@@ -2,6 +2,9 @@ import React from "react";
 import "../src/styles/index.css";
 import { addDecorator } from "@storybook/react";
 import { withInfo } from "@storybook/addon-info";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+library.add(fas);
 
 const styles: React.CSSProperties = {
     textAlign: "center",
