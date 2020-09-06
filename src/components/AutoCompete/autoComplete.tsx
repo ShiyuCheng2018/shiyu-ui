@@ -7,20 +7,17 @@ import React, {
     useEffect,
     useRef,
 } from "react";
+import classNames from "classnames";
 import Input, { InputProps } from "../Input/input";
 import Icon from "../Icon/icon";
+import Transition from "../Transition/transition";
 import useDebounce from "../../hooks/useDebounce";
-import classNames from "classnames";
 import useClickOutside from "../../hooks/useClickOutside";
-
 interface DataSourceObject {
     value: string;
 }
-
-export type DataSourceType<T = any> = T & DataSourceObject;
-
-export interface AutoCompleteProps<DataSourceType>
-    extends Omit<InputProps, "onSelect"> {
+export type DataSourceType<T = {}> = T & DataSourceObject;
+export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
     fetchSuggestions: (
         str: string
     ) => DataSourceType[] | Promise<DataSourceType[]>;
@@ -28,7 +25,7 @@ export interface AutoCompleteProps<DataSourceType>
     renderOption?: (item: DataSourceType) => ReactElement;
 }
 
-export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
+export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     const {
         fetchSuggestions,
         onSelect,
@@ -37,36 +34,42 @@ export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
         ...restProps
     } = props;
 
-    const [inputValue, setInputValue] = useState(value);
-    const [suggestions, setSuggestions] = useState<DataSourceType[]>([]);
+    const [inputValue, setInputValue] = useState(value as string);
+    const [suggestions, setSugestions] = useState<DataSourceType[]>([]);
     const [loading, setLoading] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
     const [highlightIndex, setHighlightIndex] = useState(-1);
     const triggerSearch = useRef(false);
     const componentRef = useRef<HTMLDivElement>(null);
-    const debounceValue = useDebounce(inputValue, 300);
-
+    const debouncedValue = useDebounce(inputValue, 300);
     useClickOutside(componentRef, () => {
-        setSuggestions([]);
+        setSugestions([]);
     });
-
     useEffect(() => {
-        if (debounceValue && triggerSearch.current) {
-            const result = fetchSuggestions(debounceValue as string);
-            if (result instanceof Promise) {
+        if (debouncedValue && triggerSearch.current) {
+            setSugestions([]);
+            const results = fetchSuggestions(debouncedValue);
+            if (results instanceof Promise) {
                 setLoading(true);
-                result.then((data) => {
+                results.then((data) => {
                     setLoading(false);
-                    setSuggestions(data);
+                    setSugestions(data);
+                    if (data.length > 0) {
+                        setShowDropdown(true);
+                    }
                 });
             } else {
-                setSuggestions(result);
+                setSugestions(results);
+                setShowDropdown(true);
+                if (results.length > 0) {
+                    setShowDropdown(true);
+                }
             }
         } else {
-            setSuggestions([]);
+            setShowDropdown(false);
         }
         setHighlightIndex(-1);
-    }, [debounceValue]);
-
+    }, [debouncedValue]);
     const highlight = (index: number) => {
         if (index < 0) index = 0;
         if (index >= suggestions.length) {
@@ -74,7 +77,6 @@ export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
         }
         setHighlightIndex(index);
     };
-
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         switch (e.keyCode) {
             case 13:
@@ -89,68 +91,71 @@ export const AutoComplete: FC<AutoCompleteProps<DataSourceType>> = (props) => {
                 highlight(highlightIndex + 1);
                 break;
             case 27:
-                setSuggestions([]);
+                setShowDropdown(false);
                 break;
             default:
                 break;
         }
     };
-
-    console.log(suggestions);
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
         setInputValue(value);
         triggerSearch.current = true;
     };
-
     const handleSelect = (item: DataSourceType) => {
         setInputValue(item.value);
-        setSuggestions([]);
+        setShowDropdown(false);
         if (onSelect) {
             onSelect(item);
         }
         triggerSearch.current = false;
     };
-
     const renderTemplate = (item: DataSourceType) => {
         return renderOption ? renderOption(item) : item.value;
     };
-
     const generateDropdown = () => {
         return (
-            <ul>
-                {suggestions.map((item, index) => {
-                    const cnames = classNames("suggestion-item", {
-                        "item-highlighted": index === highlightIndex,
-                    });
-                    return (
-                        <li
-                            key={index}
-                            className={cnames}
-                            onClick={() => handleSelect(item)}
-                        >
-                            {renderTemplate(item)}
-                        </li>
-                    );
-                })}
-            </ul>
+            <Transition
+                in={showDropdown || loading}
+                animation="zoom-in-top"
+                timeout={300}
+                onExited={() => {
+                    setSugestions([]);
+                }}
+            >
+                <ul className="shiyu-suggestion-list">
+                    {loading && (
+                        <div className="suggestions-loading-icon">
+                            <Icon icon="spinner" spin />
+                        </div>
+                    )}
+                    {suggestions.map((item, index) => {
+                        const cnames = classNames("suggestion-item", {
+                            "is-active": index === highlightIndex,
+                        });
+                        return (
+                            <li
+                                key={index}
+                                className={cnames}
+                                onClick={() => handleSelect(item)}
+                            >
+                                {renderTemplate(item)}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </Transition>
         );
     };
-
     return (
-        <div className={"shiyu-auto-complete"} ref={componentRef}>
+        <div className="shiyu-auto-complete" ref={componentRef}>
             <Input
                 value={inputValue}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 {...restProps}
             />
-            {loading && (
-                <ul>
-                    <Icon icon={"spinner"} spin />
-                </ul>
-            )}
-            {suggestions.length > 0 && generateDropdown()}
+            {generateDropdown()}
         </div>
     );
 };
