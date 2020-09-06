@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { Upload } from "./upload";
+import { Upload, UploadFile } from "./upload";
 
 const checkFileSize = (file: File) => {
     if (Math.round(file.size / 1024) > 50) {
@@ -10,6 +10,18 @@ const checkFileSize = (file: File) => {
     }
     return true;
 };
+
+const defaultFileList: UploadFile[] = [
+    {
+        uid: "123",
+        size: 1234,
+        name: "hello.md",
+        status: "uploading",
+        percent: 30,
+    },
+    { uid: "122", size: 1234, name: "xyz.md", status: "success", percent: 30 },
+    { uid: "121", size: 1234, name: "eyiha.md", status: "error", percent: 30 },
+];
 
 const filePromise = (file: File) => {
     const newFile = new File([file], "new_name.docx", { type: file.type });
@@ -23,6 +35,7 @@ const SimpleUpload = () => {
             onProgress={action("progress")}
             onSuccess={action("success")}
             onError={action("error")}
+            defaultFileList={defaultFileList}
             beforeUpload={checkFileSize}
         />
     );

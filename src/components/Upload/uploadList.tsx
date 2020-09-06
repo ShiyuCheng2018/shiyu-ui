@@ -21,7 +21,7 @@ export const UploadList: FC<UploadListProps> = (props) => {
                         </span>
                         <span className={"file-status"}>
                             {item.status === "uploading" && (
-                                <Icon icon={"spinner"} theme={"primary"} />
+                                <Icon icon={"spinner"} spin theme={"primary"} />
                             )}
                             {item.status === "success" && (
                                 <Icon icon={"check-circle"} theme={"success"} />
