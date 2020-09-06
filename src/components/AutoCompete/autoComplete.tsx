@@ -16,7 +16,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 interface DataSourceObject {
     value: string;
 }
-export type DataSourceType<T = {}> = T & DataSourceObject;
+export type DataSourceType<T = any> = T & DataSourceObject;
 export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
     fetchSuggestions: (
         str: string
