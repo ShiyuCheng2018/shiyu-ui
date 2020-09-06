@@ -837,4 +837,9 @@ main {
     border-radius: 0.3rem;
 }
 
+.item-highlighted {
+    background: #0d6efd;
+    color: #fff;
+}
+
 /*# sourceMappingURL=index.css.map */
