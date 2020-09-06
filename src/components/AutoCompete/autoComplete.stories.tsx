@@ -45,12 +45,10 @@ const AsyncComplete = () => {
             .then((res) => res.json())
             .then(({ items }) => {
                 const githubUsers = items as GithubUserProps[];
-                return githubUsers
-                    .slice(0, 10)
-                    .map((githubUser) => ({
-                        value: githubUser.login,
-                        ...githubUser,
-                    }));
+                return githubUsers.slice(0, 10).map((githubUser) => ({
+                    value: githubUser.login,
+                    ...githubUser,
+                }));
             });
     };
 
