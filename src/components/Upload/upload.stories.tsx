@@ -24,11 +24,6 @@ const defaultFileList: UploadFile[] = [
     { uid: "121", size: 1234, name: "eyiha.md", status: "error", percent: 30 },
 ];
 
-const filePromise = (file: File) => {
-    const newFile = new File([file], "new_name.docx", { type: file.type });
-    return Promise.resolve(newFile);
-};
-
 const SimpleUpload = () => {
     return (
         <Upload
