@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import MenuItem from "./components/Menu/menuItem";
 import Menu from "./components/Menu/menu";
 import SubMenu from "./components/Menu/subMenu";
-import Icon from "./components/Icon/icon";
 import registerFaIcons from "./registerFaIcons";
 import Button from "./components/Button/button";
 import Transition from "./components/Transition/transition";
