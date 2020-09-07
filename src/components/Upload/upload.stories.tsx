@@ -2,9 +2,10 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Upload, UploadFile } from "./upload";
+import Icon from "../Icon/icon";
 
 const checkFileSize = (file: File) => {
-    if (Math.round(file.size / 1024) > 50) {
+    if (Math.round(file.size / 9024) > 50) {
         alert("file too big");
         return false;
     }
@@ -42,7 +43,12 @@ const SimpleUpload = () => {
             headers={{ "X-Powered-by": "shiyu" }}
             accept={".jpg"}
             multiple
-        />
+            drag
+        >
+            <Icon icon="upload" size="5x" theme="secondary" />
+            <br/>
+            <p>Drag file over to upload</p>
+        </Upload>
     );
 };
 
