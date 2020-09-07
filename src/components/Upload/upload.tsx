@@ -31,7 +31,7 @@ export interface UploadProps {
     withCredentials?: boolean;
     accept?: string;
     multiple?: boolean;
-    drag?: boolean
+    drag?: boolean;
 }
 
 export const Upload: FC<UploadProps> = (props) => {
@@ -51,7 +51,7 @@ export const Upload: FC<UploadProps> = (props) => {
         accept,
         multiple,
         children,
-        drag
+        drag,
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const [fileList, setFileList] = useState<UploadFile[]>(
@@ -182,21 +182,26 @@ export const Upload: FC<UploadProps> = (props) => {
     };
 
     return (
-        <div
-            className="shiyu-upload-component"
-        >
-            <div className="shiyu-upload-input"
-                 style={{display: 'inline-block'}}
-                 onClick={handleClick}>
-                {drag ?
-                    <Dragger onFile={(files) => {uploadFiles(files)}}>
+        <div className="shiyu-upload-component">
+            <div
+                className="shiyu-upload-input"
+                style={{ display: "inline-block" }}
+                onClick={handleClick}
+            >
+                {drag ? (
+                    <Dragger
+                        onFile={(files) => {
+                            uploadFiles(files);
+                        }}
+                    >
                         {children}
-                    </Dragger>:
+                    </Dragger>
+                ) : (
                     children
-                }
+                )}
                 <input
                     className="shiyu-file-input"
-                    style={{display: 'none'}}
+                    style={{ display: "none" }}
                     ref={fileInput}
                     onChange={handleFileChange}
                     type="file"
@@ -205,12 +210,9 @@ export const Upload: FC<UploadProps> = (props) => {
                 />
             </div>
 
-            <UploadList
-                fileList={fileList}
-                onRemove={handleRemove}
-            />
+            <UploadList fileList={fileList} onRemove={handleRemove} />
         </div>
-    )
+    );
 };
 
 Upload.defaultProps = {
