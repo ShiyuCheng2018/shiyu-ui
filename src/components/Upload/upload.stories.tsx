@@ -40,6 +40,8 @@ const SimpleUpload = () => {
             name={"fileName"}
             data={{ key: "value" }}
             headers={{ "X-Powered-by": "shiyu" }}
+            accept={".jpg"}
+            multiple
         />
     );
 };

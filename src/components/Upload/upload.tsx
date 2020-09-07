@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, useRef, useState } from "react";
 import axios from "axios";
 import Button from "../Button/button";
-import { UploadList } from "./uploadList";
+import { UploadList, UploadListProps } from "./uploadList";
 
 export type UploadFileStatus = "ready" | "uploading" | "success" | "error";
 export interface UploadFile {
@@ -28,6 +28,8 @@ export interface UploadProps {
     name?: string;
     data?: { [key: string]: any };
     withCredentials?: boolean;
+    accept?: string;
+    multiple?: boolean;
 }
 
 export const Upload: FC<UploadProps> = (props) => {
@@ -44,6 +46,8 @@ export const Upload: FC<UploadProps> = (props) => {
         headers,
         data,
         withCredentials,
+        accept,
+        multiple,
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const [fileList, setFileList] = useState<UploadFile[]>(
@@ -118,7 +122,10 @@ export const Upload: FC<UploadProps> = (props) => {
             percent: 0,
             raw: file,
         };
-        setFileList([_file, ...fileList]);
+        // setFileList([_file, ...fileList]);
+        setFileList((prevList) => {
+            return [_file, ...prevList];
+        });
         const formData = new FormData();
         formData.append(name || "file", file);
         if (data) {
@@ -181,6 +188,8 @@ export const Upload: FC<UploadProps> = (props) => {
                 ref={fileInput}
                 onChange={handleFileChange}
                 type="file"
+                accept={accept}
+                multiple={multiple}
             />
             <UploadList fileList={fileList} onRemove={handleRemove} />
         </div>
