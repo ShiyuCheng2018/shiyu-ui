@@ -3,6 +3,7 @@ build
 node_modules
 dist
 coverage
+storybook-static
 
 # Ignore all HTML files:
 *.html
