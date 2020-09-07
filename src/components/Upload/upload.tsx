@@ -24,6 +24,10 @@ export interface UploadProps {
     onError?: (err: any, file: File) => void;
     onChange?: (file: File) => void;
     onRemove?: (file: UploadFile) => void;
+    headers?: { [key: string]: any };
+    name?: string;
+    data?: { [key: string]: any };
+    withCredentials?: boolean;
 }
 
 export const Upload: FC<UploadProps> = (props) => {
@@ -36,6 +40,10 @@ export const Upload: FC<UploadProps> = (props) => {
         beforeUpload,
         onChange,
         onRemove,
+        name,
+        headers,
+        data,
+        withCredentials,
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const [fileList, setFileList] = useState<UploadFile[]>(
@@ -112,12 +120,19 @@ export const Upload: FC<UploadProps> = (props) => {
         };
         setFileList([_file, ...fileList]);
         const formData = new FormData();
-        formData.append(file.name, file);
+        formData.append(name || "file", file);
+        if (data) {
+            Object.keys(data).forEach((key) => {
+                formData.append(key, data[key]);
+            });
+        }
         axios
             .post(action, formData, {
                 headers: {
+                    ...headers,
                     "Content-Type": "multipart/form-data",
                 },
+                withCredentials,
                 onUploadProgress: (e) => {
                     let percentage =
                         Math.round((e.loaded * 100) / e.total) || 0;
@@ -171,3 +186,9 @@ export const Upload: FC<UploadProps> = (props) => {
         </div>
     );
 };
+
+Upload.defaultProps = {
+    name: "file",
+};
+
+export default Upload;

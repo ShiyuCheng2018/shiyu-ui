@@ -37,6 +37,9 @@ const SimpleUpload = () => {
             onError={action("error")}
             defaultFileList={defaultFileList}
             beforeUpload={checkFileSize}
+            name={"fileName"}
+            data={{ key: "value" }}
+            headers={{ "X-Powered-by": "shiyu" }}
         />
     );
 };
